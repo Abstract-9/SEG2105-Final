@@ -21,6 +21,15 @@
             android:textSize="50sp" />
 
         <EditText
+            android:id="@+id/email"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
             android:id="@+id/newUser"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -51,7 +60,7 @@
             android:id="@+id/button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="25dp"
             android:text="Submit" />
 
         <TextView
@@ -60,6 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="Log in"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_blue_dark" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
