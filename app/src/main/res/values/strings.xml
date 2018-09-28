@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">SEG2105-Final</string>
+    <string name="app_name">Fake kijiji</string>
     <string name="signin">Sign in</string>
     <string name="signUpOption">Don\'t Have an account?</string>
     <string name="signUp">Sign Up</string>
+
+    <string-array name="userChoices">
+        <item>Home Owner</item>
+        <item>Service Provider</item>
+    </string-array>
 </resources>

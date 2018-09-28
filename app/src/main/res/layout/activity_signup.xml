@@ -6,72 +6,84 @@
     android:layout_height="match_parent"
     tools:context=".SignupActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="200dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign up"
-            android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:textSize="50sp" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="Sign up"
+                android:textAppearance="@android:style/TextAppearance.Holo.Large"
+                android:textSize="50sp" />
 
-        <EditText
-            android:id="@+id/newUser"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:ems="10"
-            android:hint="New username"
-            android:inputType="textPersonName" />
+            <Spinner
+                android:id="@+id/userType"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
 
-        <EditText
-            android:id="@+id/newPass"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:ems="10"
-            android:hint="New password"
-            android:inputType="textPersonName" />
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
 
-        <EditText
-            android:id="@+id/confirmPass"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:ems="10"
-            android:hint="Confirm password"
-            android:inputType="textPassword" />
+            <EditText
+                android:id="@+id/newUser"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:ems="10"
+                android:hint="New username"
+                android:inputType="textPersonName" />
 
-        <Button
-            android:id="@+id/confirmButton"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="Submit" />
+            <EditText
+                android:id="@+id/newPass"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:ems="10"
+                android:hint="New password"
+                android:inputType="textPersonName" />
 
-        <TextView
-            android:id="@+id/loginLink"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:clickable="true"
-            android:onClick="loginListener"
-            android:text="Have an account? Log in"
-            android:textAlignment="center"
-            android:textColor="@color/customBlue" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/confirmPass"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:ems="10"
+                android:hint="Confirm password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/confirmButton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Submit" />
+
+            <TextView
+                android:id="@+id/loginLink"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:onClick="loginListener"
+                android:text="Have an account? Log in"
+                android:textAlignment="center"
+                android:textColor="@color/customBlue" />
+        </LinearLayout>
+    </ScrollView>
+
 </android.support.constraint.ConstraintLayout>
