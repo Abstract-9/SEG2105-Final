@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "734795835807",
+    "firebase_url": "https://seg-final-2018.firebaseio.com",
+    "project_id": "seg-final-2018",
+    "storage_bucket": "seg-final-2018.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734795835807:android:35f69fb55f2d2d75",
+        "android_client_info": {
+          "package_name": "com.codeflo.seg2105_final"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734795835807-dqiu9gccuap0ijb91d4a8d2bv3suiq45.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAGb2cm0CBdxDezBveATjb-UASyX1cI3A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
