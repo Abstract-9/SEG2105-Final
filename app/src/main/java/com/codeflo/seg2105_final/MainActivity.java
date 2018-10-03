@@ -1,4 +1,4 @@
-package com.loroad.seg2105_final;
+package com.codeflo.seg2105_final;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

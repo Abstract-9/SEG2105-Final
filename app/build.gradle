@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion '28.0.2'
     defaultConfig {
-        applicationId "com.loroad.seg2105_final"
+        applicationId 'com.codeflo.seg2105_final'
         minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
@@ -16,6 +16,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
     }
 }
 
