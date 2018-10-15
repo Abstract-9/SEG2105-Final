@@ -27,8 +27,9 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         findViewById(R.id.signUpLink);
 
-        if(getIntent().getExtras().get("CreationSuccess")!=null); //TODO put login sign
-
+        if(getIntent().getExtras().get("CreationSuccess")!=null){
+            findViewById(R.id.signinText).setVisibility(View.VISIBLE);
+        }
     }
 
     public void signUpListener(View v){
@@ -36,15 +37,18 @@ public class LoginActivity extends Activity {
         startActivity(signUp);
     }
 
-    OnCompleteListener<QuerySnapshot> loginListener = new OnCompleteListener<QuerySnapshot>() {
+    OnCompleteListener<DocumentSnapshot> loginListener = new OnCompleteListener<DocumentSnapshot>() {
         @Override
-        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
             if(task.getResult()!=null) {
+
+                TextView username = (TextView) findViewById(R.id.username);
                 TextView userPass = (TextView) findViewById(R.id.password);
-                QuerySnapshot result = task.getResult();
-                DocumentSnapshot user = result.getDocuments().get(0);
+                DocumentSnapshot user = task.getResult();
                 if(user.get("Password").equals(userPass.getText())){
-                    //TODO authentication successful
+                    Intent login = new Intent(getApplicationContext(), logined.class);
+                    login.putExtra("username", username.getText());
+                    startActivity(login);
                 }else{
                     //TODO unknown user
                 }
@@ -58,7 +62,6 @@ public class LoginActivity extends Activity {
         TextView userInput = (TextView) findViewById(R.id.userName);
 
         db = FirebaseFirestore.getInstance();
-        db.collection("users").whereEqualTo("Username", userInput.getText())
-                .get().addOnCompleteListener(loginListener);
+        db.collection("users").document(userInput.getText().toString()).get().addOnCompleteListener(loginListener);
     }
 }
