@@ -27,6 +27,8 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         findViewById(R.id.signUpLink);
 
+        if(getIntent().getExtras().get("CreationSuccess")!=null); //TODO put login sign
+
     }
 
     public void signUpListener(View v){
