@@ -56,8 +56,8 @@ public class SignupActivity extends Activity {
     public void submitListener(View v){
 
         EditText email = (EditText) findViewById(R.id.email);
-        EditText user = (EditText) findViewById(R.id.userName);
-        EditText password = (EditText) findViewById(R.id.password);
+        EditText user = (EditText) findViewById(R.id.newUser);
+        EditText password = (EditText) findViewById(R.id.newPass);
         Spinner userChoices = (Spinner) findViewById(R.id.userType);
         String choice = userChoices.getSelectedItem().toString();
 
@@ -65,9 +65,9 @@ public class SignupActivity extends Activity {
 
         db = FirebaseFirestore.getInstance();
         Map<String, Object> map = new HashMap<>();
-        map.put("email", email.getText());
-        map.put("password", password.getText());
-        map.put("type", choice);
+        map.put("Email", email.getText());
+        map.put("Password", password.getText());
+        map.put("Type", choice);
         db.collection("users").document(user.getText().toString()).set(map).
                 addOnCompleteListener(userAddListener);
     }

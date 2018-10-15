@@ -27,7 +27,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         findViewById(R.id.signUpLink);
 
-        if(getIntent().getExtras().get("CreationSuccess")!=null){
+        if(getIntent().getExtras()!=null){
             findViewById(R.id.signinText).setVisibility(View.VISIBLE);
         }
     }
@@ -45,9 +45,10 @@ public class LoginActivity extends Activity {
                 TextView username = (TextView) findViewById(R.id.username);
                 TextView userPass = (TextView) findViewById(R.id.password);
                 DocumentSnapshot user = task.getResult();
-                if(user.get("Password").equals(userPass.getText())){
+                if(user.get("Password").equals(userPass.getText().toString())){
                     Intent login = new Intent(getApplicationContext(), logined.class);
-                    login.putExtra("username", username.getText());
+                    login.putExtra("username", username.getText().toString());
+                    login.putExtra("type", (String) user.get("Type"));
                     startActivity(login);
                 }else{
                     //TODO unknown user
@@ -59,7 +60,7 @@ public class LoginActivity extends Activity {
     };
 
     public void onLogin(View v){
-        TextView userInput = (TextView) findViewById(R.id.userName);
+        TextView userInput = (TextView) findViewById(R.id.username);
 
         db = FirebaseFirestore.getInstance();
         db.collection("users").document(userInput.getText().toString()).get().addOnCompleteListener(loginListener);
