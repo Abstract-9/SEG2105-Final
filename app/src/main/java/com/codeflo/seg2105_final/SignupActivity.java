@@ -61,12 +61,12 @@ public class SignupActivity extends Activity {
         Spinner userChoices = (Spinner) findViewById(R.id.userType);
         String choice = userChoices.getSelectedItem().toString();
 
-
+        if(choice.equals("")) return;
 
         db = FirebaseFirestore.getInstance();
         Map<String, Object> map = new HashMap<>();
-        map.put("Email", email.getText());
-        map.put("Password", password.getText());
+        map.put("Email", email.getText().toString());
+        map.put("Password", password.getText().toString());
         map.put("Type", choice);
         db.collection("users").document(user.getText().toString()).set(map).
                 addOnCompleteListener(userAddListener);
