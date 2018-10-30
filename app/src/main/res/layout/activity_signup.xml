@@ -28,8 +28,7 @@
                 android:id="@+id/userType"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:prompt="Select Account Type..." />
+                android:layout_marginTop="20dp" />
 
             <EditText
                 android:id="@+id/email"
