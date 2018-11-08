@@ -21,6 +21,7 @@
             android:textAlignment="center" />
 
         <ListView
+            android:id="@+id/serviceList"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_marginTop="10dp">
@@ -28,10 +29,10 @@
         </ListView>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/addService"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="Add" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
