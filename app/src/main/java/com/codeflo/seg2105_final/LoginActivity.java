@@ -41,7 +41,9 @@ public class LoginActivity extends Activity {
                 TextView userPass = (TextView) findViewById(R.id.password);
                 DocumentSnapshot user = task.getResult();
                 if(user.get("Password").equals(userPass.getText().toString())){
-                    Intent login = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent login;
+                    if(username.equals("Admin")) login = new Intent(getApplicationContext(), AdminActivity.class);
+                    else login = new Intent(getApplicationContext(), MainActivity.class);
                     login.putExtra("username", username.getText().toString());
                     login.putExtra("type", (String) user.get("Type"));
                     startActivity(login);
