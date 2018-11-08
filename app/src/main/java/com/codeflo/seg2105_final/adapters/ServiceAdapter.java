@@ -15,7 +15,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
     private ArrayList<Service> serviceList;
     private FirebaseFirestore database;
 
-    ServiceAdapter(Context context, ArrayList<Service> serviceList){
+    public ServiceAdapter(Context context, ArrayList<Service> serviceList){
         super(context, 0, serviceList);
         mContext = context;
         this.serviceList = serviceList;
