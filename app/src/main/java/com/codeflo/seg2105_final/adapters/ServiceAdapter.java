@@ -23,30 +23,12 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
 
     private Context mContext;
     private ArrayList<Service> serviceList;
-    private FirebaseFirestore database;
 
     public ServiceAdapter(Context context, ArrayList<Service> serviceList){
         super(context, 0, serviceList);
         mContext = context;
         this.serviceList = serviceList;
-        update();
     }
-
-
-    void update(){
-        database = FirebaseFirestore.getInstance();
-        database.collection("Services").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(DocumentSnapshot doc : task.getResult().getDocuments()){
-                        serviceList.add(new Service(doc.getId(), (int) doc.get("rate"), null));
-                    }
-                }
-            }
-        });
-    }
-
 
     @NonNull
     @Override
@@ -62,7 +44,7 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
         name.setText(current.getName());
 
         TextView rate = (TextView) listItem.findViewById(R.id.rate);
-        rate.setText(current.getRate());
+        rate.setText(String.valueOf(current.getRate()));
 
         return listItem;
     }
