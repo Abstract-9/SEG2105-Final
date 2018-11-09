@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class Service {
     String name;
-    int rate;
+    double rate;
     ArrayList<Service> children;
 
-    public Service(String name, int rate, ArrayList<Service> children){
+    public Service(String name, double rate, ArrayList<Service> children){
         this.name = name;
         this.rate = rate;
         this.children = children;
@@ -26,11 +26,11 @@ public class Service {
         this.name = name;
     }
 
-    public int getRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(int rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 
