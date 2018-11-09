@@ -44,7 +44,7 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
         name.setText(current.getName());
 
         TextView rate = (TextView) listItem.findViewById(R.id.rate);
-        rate.setText(String.valueOf(current.getRate()));
+        rate.setText("Rate: $" + String.valueOf(current.getRate()) + ".00");
 
         return listItem;
     }

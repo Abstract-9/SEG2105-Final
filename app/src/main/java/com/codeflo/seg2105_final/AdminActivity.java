@@ -3,6 +3,7 @@ package com.codeflo.seg2105_final;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.ListView;
 
 import com.codeflo.seg2105_final.adapters.ServiceAdapter;
@@ -47,4 +48,8 @@ public class AdminActivity extends Activity {
             }
         }
     };
+
+    public View addService(View v){
+        //TODO add service
+    }
 }
