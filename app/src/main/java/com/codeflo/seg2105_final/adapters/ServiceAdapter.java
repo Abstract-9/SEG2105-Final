@@ -140,4 +140,8 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
             }
         });
     }
+
+    public Service getService(int index){
+        return serviceList.get(index);
+    }
 }

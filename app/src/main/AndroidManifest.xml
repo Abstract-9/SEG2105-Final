@@ -18,7 +18,8 @@
         <!-- <activity android:name="com.codeflo.seg2105_final.LoginActivity" /> -->
         <activity android:name=".SignupActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".AdminActivity"></activity>
+        <activity android:name=".AdminActivity" />
+        <activity android:name=".ProviderActivity"></activity>
     </application>
 
 </manifest>
