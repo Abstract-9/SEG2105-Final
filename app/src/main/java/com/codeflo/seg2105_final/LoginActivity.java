@@ -42,8 +42,17 @@ public class LoginActivity extends Activity {
                 DocumentSnapshot user = task.getResult();
                 if(user.get("Password").equals(userPass.getText().toString())){
                     Intent login;
+
+                    //Set intent for the Admin
                     if(username.getText().toString().equals("Admin")) login = new Intent(getApplicationContext(), AdminActivity.class);
+
+                    //Set intent for the Service Providers
+                    else if(user.get("Type").equals("ServiceProvider")) login = new Intent(getApplicationContext(), ProviderActivity.class);
+
+                    //Set intent for the Home Owners
                     else login = new Intent(getApplicationContext(), MainActivity.class);
+
+                    //Go!
                     login.putExtra("username", username.getText().toString());
                     login.putExtra("type", (String) user.get("Type"));
                     startActivity(login);

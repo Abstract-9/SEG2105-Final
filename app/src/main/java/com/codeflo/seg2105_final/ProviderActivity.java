@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.CalendarView;
 import android.widget.ListView;
 
 import com.codeflo.seg2105_final.adapters.ServiceAdapter;
@@ -19,23 +20,28 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ServiceLoader;
 
 public class ProviderActivity extends Activity {
 
     ServiceAdapter adapter;
+    ArrayList<Service> services;
     FirebaseFirestore db;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_provider);
         db = FirebaseFirestore.getInstance();
-        db.collection("Service").get().addOnCompleteListener(serviceListener);
 
+        username = (String) getIntent().getExtras().get("username");
+
+        db.collection("Services").get().addOnCompleteListener(allServicesListener);
+        db.collection("users").document(username)
+                .collection("Services").get().addOnCompleteListener(userServicesListener);
     }
 
-    OnCompleteListener<QuerySnapshot> serviceListener = new OnCompleteListener<QuerySnapshot>() {
+    OnCompleteListener<QuerySnapshot> allServicesListener = new OnCompleteListener<QuerySnapshot>() {
         @Override
         public void onComplete(@NonNull Task<QuerySnapshot> task) {
             if(task.isSuccessful()){
@@ -51,6 +57,19 @@ public class ProviderActivity extends Activity {
         }
     };
 
+    OnCompleteListener<QuerySnapshot> userServicesListener = new OnCompleteListener<QuerySnapshot>() {
+        @Override
+        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            if(task.isSuccessful()){
+                services = new ArrayList<>();
+                for(DocumentSnapshot doc : task.getResult().getDocuments()){
+                    services.add(new Service(doc.getId(), Double.parseDouble((String) doc.get("rate")), null));
+                }
+                //TODO add services to ListView on UI
+            }
+        }
+    };
+
     DialogInterface.OnClickListener serviceAddListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
@@ -60,8 +79,9 @@ public class ProviderActivity extends Activity {
             Map<String, String> reference = new HashMap<>();
             reference.put(choice.getName(), "Services/" + choice.getName());
 
-            db.collection("users").document("SERVICEPROVIDER")
+            db.collection("users").document(username)
                     .collection("Services").document(choice.getName()).set(reference);
+            dialog.dismiss();
         }
     };
 
@@ -73,6 +93,35 @@ public class ProviderActivity extends Activity {
         if(adapter!=null) dialogBuilder.setAdapter(adapter, serviceAddListener);
 
         else dialogBuilder.setMessage("DatabaseError: Check internet Connection.");
+
+        dialogBuilder.create().show();
+    }
+
+    public void submitListener(View v){
+        /*
+        TODO for this section:
+
+        Pull info from UI
+
+        VERIFY
+
+        Map and submit it to FireStore
+
+        Pull info from FireStore and put it back into UI for consistency
+         */
+    }
+
+    public void selectAvailability(View v){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        CalendarView calendarView = new CalendarView(this);
+
+        calendarView.setMinDate(System.currentTimeMillis());
+        calendarView.setMaxDate(System.currentTimeMillis() + (long) 6.048e+8);
+
+
+        builder.setTitle("Select Availability").setView(new CalendarView(this));
+
 
     }
 }
