@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Spinner
-        android:id="@+id/day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/days" />
+    <LinearLayout
+        android:id="@+id/availList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Spinner
-        android:id="@+id/time1"
-        android:layout_toEndOf="@id/day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/times" />
-
-    <Spinner
-        android:id="@+id/time2"
-        android:layout_toEndOf="@id/time1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/times" />
-</RelativeLayout>
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:onClick="layoutAddAvail"
+            android:text="+ Add an Availability"
+            android:textAlignment="textStart" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
