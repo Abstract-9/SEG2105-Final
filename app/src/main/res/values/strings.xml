@@ -46,4 +46,9 @@
         <item>3am</item>
         <item>4am</item>
     </string-array>
+
+    <string-array name="banana">
+        <item>yes</item>
+        <item>no</item>
+    </string-array>
 </resources>
