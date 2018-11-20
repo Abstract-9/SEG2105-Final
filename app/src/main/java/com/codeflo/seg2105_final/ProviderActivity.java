@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.codeflo.seg2105_final.adapters.ServiceAdapter;
 import com.codeflo.seg2105_final.models.Service;
@@ -85,6 +87,11 @@ public class ProviderActivity extends Activity {
         }
     };
 
+    public void editAvailability(View v){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+    }
+
 
     public void addServiceListener(View v){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -98,6 +105,29 @@ public class ProviderActivity extends Activity {
     }
 
     public void submitListener(View v){
+
+        String phone = ((TextView)findViewById(R.id.phone)).getText().toString();
+        String name = ((TextView)findViewById(R.id.companyName)).getText().toString();
+        String address = ((TextView)findViewById(R.id.address)).getText().toString();
+        String desc = ((TextView)findViewById(R.id.description)).getText().toString();
+        boolean licensed = ((Spinner)findViewById(R.id.liscensed)).getSelectedItemPosition();
+
+        //TODO verify
+
+        Map<String, String> map = new HashMap<>();
+
+        map.put("Phone", phone);
+        map.put("CompanyName", name);
+        map.put("Address", address);
+        map.put("Description", desc);
+        map.put("Licensed", licensed?"Yes":"No");
+
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("users").document(username).set(map);
+
+
+
         /*
         TODO for this section:
 
@@ -113,15 +143,6 @@ public class ProviderActivity extends Activity {
 
     public void selectAvailability(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        CalendarView calendarView = new CalendarView(this);
-
-        calendarView.setMinDate(System.currentTimeMillis());
-        calendarView.setMaxDate(System.currentTimeMillis() + (long) 6.048e+8);
-
-
-        builder.setTitle("Select Availability").setView(new CalendarView(this));
-
 
     }
 }
