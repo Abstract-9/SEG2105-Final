@@ -220,7 +220,7 @@ public class ProviderActivity extends Activity {
 
         db.collection("users").document(username).set(map);
 
-
+        Toast.makeText(this, "Content updated!", Toast.LENGTH_LONG).show();
 
         /*
         TODO for this section:
