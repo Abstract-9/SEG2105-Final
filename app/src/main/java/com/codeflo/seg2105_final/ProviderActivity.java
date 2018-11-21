@@ -8,8 +8,6 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +27,7 @@ import java.util.Map;
 
 public class ProviderActivity extends Activity {
 
-    ServiceAdapter adapter;
+    ServiceAdapter allServiceAdapter, userServiceAdapter;
     ArrayList<Service> services;
     ArrayList<Availability> availabilities;
     FirebaseFirestore db;
@@ -58,10 +56,9 @@ public class ProviderActivity extends Activity {
 
                 for(DocumentSnapshot doc : task.getResult().getDocuments()){
                     serviceList.add(new Service(doc.getId(), Double.parseDouble((String) doc.get("rate")), null));
-
-                    ListView listServices = (ListView)findViewById(R.id.serviceList);
-                    adapter = new ServiceAdapter(ProviderActivity.this, serviceList, username);
                 }
+
+                allServiceAdapter = new ServiceAdapter(ProviderActivity.this, serviceList, username, 1);
             }
         }
     };
@@ -74,7 +71,7 @@ public class ProviderActivity extends Activity {
                 for(DocumentSnapshot doc : task.getResult().getDocuments()){
                     services.add(new Service(doc.getId(), Double.parseDouble((String) doc.get("rate")), null));
                 }
-                //TODO add services to ListView on UI
+                userServiceAdapter = new ServiceAdapter(ProviderActivity.this, services, username, 0);
             }
         }
     };
@@ -95,7 +92,7 @@ public class ProviderActivity extends Activity {
     DialogInterface.OnClickListener serviceAddListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            Service choice = adapter.getService(which);
+            Service choice = allServiceAdapter.getService(which);
             db = FirebaseFirestore.getInstance();
 
             Map<String, String> reference = new HashMap<>();
@@ -181,9 +178,24 @@ public class ProviderActivity extends Activity {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
         dialogBuilder.setTitle("Choose a service to add");
-        if(adapter!=null) dialogBuilder.setAdapter(adapter, serviceAddListener);
+        if(allServiceAdapter !=null) dialogBuilder.setAdapter(userServiceAdapter, serviceAddListener);
 
-        else dialogBuilder.setMessage("DatabaseError: Check internet Connection.");
+        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        dialogBuilder.setNegativeButton("Add Service", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AlertDialog.Builder innerBuilder = new AlertDialog.Builder(ProviderActivity.this);
+                innerBuilder.setAdapter(allServiceAdapter, serviceAddListener);
+                innerBuilder.setTitle("Select a service to add");
+                innerBuilder.create().show();
+            }
+        });
 
         dialogBuilder.create().show();
     }

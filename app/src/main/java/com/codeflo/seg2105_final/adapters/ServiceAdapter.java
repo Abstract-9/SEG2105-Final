@@ -31,12 +31,14 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
     private Context mContext;
     private ArrayList<Service> serviceList;
     private String username;
+    private int addMode;
 
-    public ServiceAdapter(Context context, ArrayList<Service> serviceList, @Nullable String username){
+    public ServiceAdapter(Context context, ArrayList<Service> serviceList, @Nullable String username, int addMode){
         super(context, 0, serviceList);
         mContext = context;
         this.serviceList = serviceList;
         this.username = username;
+        this.addMode = addMode;
     }
 
     @NonNull
@@ -47,8 +49,11 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
 
         if(listItem == null && username==null)
             listItem = inflater.inflate(R.layout.service_item, parent, false);
-        else if(listItem == null)
+        else if(listItem == null && addMode==0)
             listItem = inflater.inflate(R.layout.service_item_provider, parent, false);
+        else if(listItem==null)
+            listItem = inflater.inflate(R.layout.service_item_plain, parent, false);
+
 
 
         Service current = serviceList.get(position);
@@ -62,7 +67,7 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
         rate.setText(tmp);
 
         if(username==null) listItem.findViewById(R.id.adminButton).setOnClickListener(adminListener);
-        else listItem.findViewById(R.id.adminButton).setOnClickListener(providerListener);
+        else if(addMode==0) listItem.findViewById(R.id.adminButton).setOnClickListener(providerListener);
 
         return listItem;
     }
