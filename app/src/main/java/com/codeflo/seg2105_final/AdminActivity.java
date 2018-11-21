@@ -55,7 +55,7 @@ public class AdminActivity extends Activity {
                     serviceList.add(new Service(doc.getId(), Double.parseDouble((String) doc.get("rate")), null));
 
                     ListView listServices = (ListView)findViewById(R.id.serviceList);
-                    ServiceAdapter serviceAdapter = new ServiceAdapter(AdminActivity.this, serviceList);
+                    ServiceAdapter serviceAdapter = new ServiceAdapter(AdminActivity.this, serviceList, null);
                     listServices.setAdapter(serviceAdapter);
                 }
             }

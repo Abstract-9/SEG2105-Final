@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.codeflo.seg2105_final.AdminActivity;
 import com.codeflo.seg2105_final.R;
 import com.codeflo.seg2105_final.models.Service;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,11 +30,13 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
 
     private Context mContext;
     private ArrayList<Service> serviceList;
+    private String username;
 
-    public ServiceAdapter(Context context, ArrayList<Service> serviceList){
+    public ServiceAdapter(Context context, ArrayList<Service> serviceList, @Nullable String username){
         super(context, 0, serviceList);
         mContext = context;
         this.serviceList = serviceList;
+        this.username = username;
     }
 
     @NonNull
@@ -44,7 +45,11 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
         View listItem = convertView;
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
-        if(listItem == null) listItem = inflater.inflate(R.layout.service_item, parent, false);
+        if(listItem == null && username==null)
+            listItem = inflater.inflate(R.layout.service_item, parent, false);
+        else if(listItem == null)
+            listItem = inflater.inflate(R.layout.service_item_provider, parent, false);
+
 
         Service current = serviceList.get(position);
 
@@ -56,12 +61,13 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
         if(tmp.split("\\.")[1].length()<2) tmp+="0";
         rate.setText(tmp);
 
-        listItem.findViewById(R.id.adminButton).setOnClickListener(listener);
+        if(username==null) listItem.findViewById(R.id.adminButton).setOnClickListener(adminListener);
+        else listItem.findViewById(R.id.adminButton).setOnClickListener(providerListener);
 
         return listItem;
     }
 
-    private View.OnClickListener listener = new View.OnClickListener() {
+    private View.OnClickListener adminListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             ViewGroup container = (ViewGroup) v.getParent();
@@ -122,6 +128,25 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
             ((EditText) dialog.findViewById(R.id.editRate)).setText(rate.getText().toString()
                     .replace("Rate: $", ""));
 
+        }
+    };
+
+    private View.OnClickListener providerListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            ViewGroup container = (ViewGroup) v.getParent();
+            ListView parent = (ListView) container.getParent();
+            String name = ((TextView) container.getChildAt(0)).getText().toString();
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            for(Service s : serviceList){
+                if(s.getName().equals(name)) serviceList.remove(s);
+
+                db.collection("users").document(username)
+                        .collection("Services").document(name).delete();
+            }
+
+            notifyDataSetChanged();
         }
     };
 

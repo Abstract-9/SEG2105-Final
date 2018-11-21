@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+
+
+    <TextView
+        android:id="@+id/editName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/adminButton"
+        android:text="Apple"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Display1"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editName"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/adminButton"
+        android:text="EFG"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Display1"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/adminButton"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_weight="1"
+        android:text="Remove" />
+
+</RelativeLayout>

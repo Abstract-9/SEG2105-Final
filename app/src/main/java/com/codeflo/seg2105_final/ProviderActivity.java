@@ -12,6 +12,7 @@ import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codeflo.seg2105_final.adapters.ServiceAdapter;
 import com.codeflo.seg2105_final.models.Availability;
@@ -59,7 +60,7 @@ public class ProviderActivity extends Activity {
                     serviceList.add(new Service(doc.getId(), Double.parseDouble((String) doc.get("rate")), null));
 
                     ListView listServices = (ListView)findViewById(R.id.serviceList);
-                    adapter = new ServiceAdapter(ProviderActivity.this, serviceList);
+                    adapter = new ServiceAdapter(ProviderActivity.this, serviceList, username);
                 }
             }
         }
@@ -130,6 +131,37 @@ public class ProviderActivity extends Activity {
                 }
             }
         }
+
+        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AlertDialog tmp = (AlertDialog) dialog;
+
+                ViewGroup parent = (ViewGroup) tmp.findViewById(R.id.availList);
+
+                db = FirebaseFirestore.getInstance();
+
+                for(int i=0;i<parent.getChildCount()-1;i++){
+                    View current = parent.getChildAt(i);
+                    Spinner day = (Spinner) current.findViewById(R.id.day), time1 = (Spinner) current.findViewById(R.id.time1),
+                            time2 = (Spinner) current.findViewById(R.id.time2);
+
+                    Map<String, String> map = new HashMap<>();
+
+                    map.put("Day", (String) day.getSelectedItem());
+                    map.put("Time1", (String) time1.getSelectedItem());
+                    map.put("Time2", (String) time2.getSelectedItem());
+
+
+                    db.collection("users").document(username)
+                            .collection("Times").add(map);
+                }
+
+                dialog.dismiss();
+                Toast.makeText(ProviderActivity.this,
+                        "Availabilities successfully updated", Toast.LENGTH_LONG).show();
+            }
+        });
 
         dialogBuilder.setView(parent);
 
