@@ -32,6 +32,7 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
     private ArrayList<Service> serviceList;
     private String username;
     private int addMode;
+    private DialogInterface parentDialog;
 
     public ServiceAdapter(Context context, ArrayList<Service> serviceList, @Nullable String username, int addMode){
         super(context, 0, serviceList);
@@ -68,6 +69,7 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
 
         if(username==null) listItem.findViewById(R.id.adminButton).setOnClickListener(adminListener);
         else if(addMode==0) listItem.findViewById(R.id.adminButton).setOnClickListener(providerListener);
+        else if(addMode==1) listItem.findViewById(R.id.adminButton).setOnClickListener(addProviderServiceListener);
 
         return listItem;
     }
@@ -151,7 +153,32 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
                         .collection("Services").document(name).delete();
             }
 
+            Toast.makeText(mContext, "Service Successfully Deleted", Toast.LENGTH_LONG).show();
+
             notifyDataSetChanged();
+        }
+    };
+
+    private View.OnClickListener addProviderServiceListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            ViewGroup container = (ViewGroup) v.getParent();
+            ListView parent = (ListView) container.getParent();
+            String name = ((TextView) container.getChildAt(0)).getText().toString();
+            double rate = 0.00;
+            for(Service s : serviceList){
+                if(s.getName().equals(name)) rate = s.getRate();
+            }
+
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            Map<String, String> reference = new HashMap<>();
+            reference.put("rate", String.valueOf(rate));
+
+            db.collection("users").document(username)
+                    .collection("Services").document(name).set(reference);
+            parentDialog.dismiss();
         }
     };
 
@@ -173,5 +200,9 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
 
     public Service getService(int index){
         return serviceList.get(index);
+    }
+
+    public void setParentDialog(DialogInterface dialog){
+        this.parentDialog = dialog;
     }
 }

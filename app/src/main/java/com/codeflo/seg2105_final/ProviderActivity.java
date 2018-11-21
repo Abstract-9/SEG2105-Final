@@ -89,29 +89,15 @@ public class ProviderActivity extends Activity {
         }
     };
 
-    DialogInterface.OnClickListener serviceAddListener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            Service choice = allServiceAdapter.getService(which);
-            db = FirebaseFirestore.getInstance();
-
-            Map<String, String> reference = new HashMap<>();
-            reference.put(choice.getName(), "Services/" + choice.getName());
-
-            db.collection("users").document(username)
-                    .collection("Services").document(choice.getName()).set(reference);
-            dialog.dismiss();
-        }
-    };
-
     public void editAvailability(View v){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
         ViewGroup parent = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.dialog_availability, null);
+        ViewGroup sub = (ViewGroup) parent.findViewById(R.id.availList);
 
         if(availabilities!=null){
             for(Availability av : availabilities) {
-                View tmp = LayoutInflater.from(this).inflate(R.layout.dialog_availability_item, parent);
+                View tmp = LayoutInflater.from(this).inflate(R.layout.dialog_availability_item, null);
                 Spinner day = (Spinner) tmp.findViewById(R.id.day), time1 = (Spinner) tmp.findViewById(R.id.time1),
                         time2 = (Spinner) tmp.findViewById(R.id.time2);
                 for (int i = 0; i < day.getCount(); i++) {
@@ -126,6 +112,7 @@ public class ProviderActivity extends Activity {
                     time2.setSelection(i);
                     if (time2.getSelectedItem().equals(av.getTime2())) break;
                 }
+                sub.addView(tmp,0);
             }
         }
 
@@ -138,7 +125,7 @@ public class ProviderActivity extends Activity {
 
                 db = FirebaseFirestore.getInstance();
 
-                for(int i=0;i<parent.getChildCount()-1;i++){
+                for(int i=availabilities.size();i<parent.getChildCount()-1;i++){
                     View current = parent.getChildAt(i);
                     Spinner day = (Spinner) current.findViewById(R.id.day), time1 = (Spinner) current.findViewById(R.id.time1),
                             time2 = (Spinner) current.findViewById(R.id.time2);
@@ -149,6 +136,8 @@ public class ProviderActivity extends Activity {
                     map.put("Time1", (String) time1.getSelectedItem());
                     map.put("Time2", (String) time2.getSelectedItem());
 
+                    availabilities.add(new Availability((String) day.getSelectedItem(),
+                            (String) time1.getSelectedItem(), (String) time2.getSelectedItem()));
 
                     db.collection("users").document(username)
                             .collection("Times").add(map);
@@ -177,8 +166,8 @@ public class ProviderActivity extends Activity {
     public void editServices(View v){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
-        dialogBuilder.setTitle("Choose a service to add");
-        if(allServiceAdapter !=null) dialogBuilder.setAdapter(userServiceAdapter, serviceAddListener);
+        dialogBuilder.setTitle("Your Services");
+        dialogBuilder.setAdapter(userServiceAdapter, null);
 
         dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
@@ -191,9 +180,18 @@ public class ProviderActivity extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 AlertDialog.Builder innerBuilder = new AlertDialog.Builder(ProviderActivity.this);
-                innerBuilder.setAdapter(allServiceAdapter, serviceAddListener);
+                innerBuilder.setAdapter(allServiceAdapter, null);
                 innerBuilder.setTitle("Select a service to add");
-                innerBuilder.create().show();
+                AlertDialog tmp = innerBuilder.create();
+                allServiceAdapter.setParentDialog(tmp);
+                tmp.show();
+                tmp.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        db.collection("users").document(username)
+                                .collection("Services").get().addOnCompleteListener(userServicesListener);
+                    }
+                });
             }
         });
 
