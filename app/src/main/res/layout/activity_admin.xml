@@ -15,10 +15,11 @@
             android:id="@+id/adminPageTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
             android:text="ADMIN PAGE"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
         <ListView
             android:id="@+id/serviceList"
