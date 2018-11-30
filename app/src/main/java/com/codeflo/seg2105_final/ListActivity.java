@@ -7,16 +7,22 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
+import com.codeflo.seg2105_final.models.Service;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+
 
 public class ListActivity extends Activity {
 
+    String search;
     boolean byName;
+
+    ArrayList<Service> serviceList;
 
     FirebaseFirestore db;
 
@@ -26,14 +32,20 @@ public class ListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        TextView searchBar = (TextView) findViewById(searchBar);
-        searchBar.setText(getIntent().getStringExtra("search"));
+        serviceList = new ArrayList<>();
+
+        TextView searchBar = (TextView) findViewById(R.id.searchBar);
+        search = getIntent().getStringExtra("search");
+        searchBar.setText(search);
         byName = getIntent().getBooleanExtra("byName", false);
 
         db = FirebaseFirestore.getInstance();
 
         if(byName){
-            db.collection("users").whereEqualTo()
+            db.collection("users").document(getIntent().getStringExtra("search")).
+                    get().addOnCompleteListener(userSearch);
+        }else{
+            db.collection("users").get().addOnCompleteListener(serviceSearch);
         }
 
     }
@@ -49,8 +61,24 @@ public class ListActivity extends Activity {
         public void onComplete(@NonNull Task<QuerySnapshot> task) {
             if(task.isSuccessful() && task.getResult()!=null){
                 for (DocumentSnapshot doc : task.getResult().getDocuments()) {
-                    if(doc.get)
+                    QuerySnapshot services = doc.getReference().collection("Services").get().getResult();
+                    if(services!=null) {
+                        for (DocumentSnapshot service : services.getDocuments()) {
+                            if (service.getId().equals(search)) {
+
+                            }
+                        }
+                    }
                 }
+            }
+        }
+    };
+
+    OnCompleteListener<DocumentSnapshot> userSearch = new OnCompleteListener<DocumentSnapshot>() {
+        @Override
+        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            if(task.isSuccessful() && task.getResult()!=null){
+
             }
         }
     };

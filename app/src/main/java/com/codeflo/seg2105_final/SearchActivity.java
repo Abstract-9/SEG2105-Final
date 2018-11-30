@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,16 +24,17 @@ public class SearchActivity extends Activity {
 
 
     public void search(View v){
-        TextView search = findViewById(R.id.searchBar);
+        TextView search = (TextView) findViewById(R.id.searchBar);
+        RadioGroup group = (RadioGroup) findViewById(R.id.searchType);
+
+        int selectedID = group.getCheckedRadioButtonId();
 
         if(!search.getText().toString().equals("")) {
             Intent intent = new Intent(this, ListActivity.class);
             intent.putExtra("search", search.getText().toString());
-            intent.putExtra("byName", byName);
+            intent.putExtra("byName", selectedID==R.id.byName);
             startActivity(intent);
         }
 
-
     }
-}
 }

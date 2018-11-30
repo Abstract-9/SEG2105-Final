@@ -17,8 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5sp"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:inputType="textPersonName" />
 
         <ListView
             android:id="@+id/providerList"
