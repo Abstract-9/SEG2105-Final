@@ -88,6 +88,8 @@ public class ListActivity extends Activity {
                 DocumentSnapshot doc = task.getResult();
                 ServiceProvider current = new ServiceProvider(doc.getId(), (String) doc.get("Address"), (int) doc.get("rate"));
                 providerList.add(current);
+                adapter = new ProviderAdapter(ListActivity.this, providerList);
+                ((ListView)findViewById(R.id.providerList)).setAdapter(adapter);
             }
         }
     };
