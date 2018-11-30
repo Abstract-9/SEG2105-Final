@@ -53,15 +53,14 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Button
+                <RadioButton
                     android:id="@+id/byRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Rate"
-                    android:textAllCaps="true" />
+                    android:text="Rate" />
 
-                <Button
+                <RadioButton
                     android:id="@+id/byName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
