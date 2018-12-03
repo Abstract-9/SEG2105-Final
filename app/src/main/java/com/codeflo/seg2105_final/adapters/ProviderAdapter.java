@@ -37,7 +37,7 @@ public class ProviderAdapter extends ArrayAdapter<ServiceProvider> {
         if(listItem == null) listItem = inflater.inflate(R.layout.service_item_list, parent, false );
 
         ((TextView)listItem.findViewById(R.id.name)).setText(current.getName());
-        ((TextView)listItem.findViewById(R.id.rate)).setText(current.getRate());
+        ((TextView)listItem.findViewById(R.id.rate)).setText(String.valueOf(current.getRate()));
         ((TextView)listItem.findViewById(R.id.address)).setText(current.getAddress());
 
         return listItem;

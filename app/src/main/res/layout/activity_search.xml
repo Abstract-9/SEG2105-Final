@@ -48,10 +48,10 @@
             android:layout_height="wrap_content">
 
             <RadioButton
-                android:id="@+id/byRate"
+                android:id="@+id/byService"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rate" />
+                android:text="Service" />
 
             <RadioButton
                 android:id="@+id/byName"

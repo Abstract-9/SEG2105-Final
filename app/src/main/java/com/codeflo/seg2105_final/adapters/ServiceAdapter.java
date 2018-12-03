@@ -19,6 +19,7 @@ import com.codeflo.seg2105_final.models.Service;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -146,12 +147,20 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
             String name = ((TextView) container.getChildAt(0)).getText().toString();
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
+            Service current = null;
             for(Service s : serviceList){
-                if(s.getName().equals(name)) serviceList.remove(s);
-
-                db.collection("users").document(username)
-                        .collection("Services").document(name).delete();
+                if(s.getName().equals(name)){
+                    serviceList.remove(s);
+                    current = s;
+                }
             }
+
+
+            db.collection("users").document(username).update
+                    ("Services", FieldValue.arrayRemove(name + ":" + current.getRate()));
+
+
+
 
             Toast.makeText(mContext, "Service Successfully Deleted", Toast.LENGTH_LONG).show();
 
@@ -173,11 +182,12 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            Map<String, String> reference = new HashMap<>();
-            reference.put("rate", String.valueOf(rate));
+            final Service reference = new Service(name, rate, null);
 
-            db.collection("users").document(username)
-                    .collection("Services").document(name).set(reference);
+            serviceList.add(reference);
+
+            db.collection("users").document(username).update
+                    ("Services", FieldValue.arrayUnion(reference.getName() + ":" + reference.getRate()));
             parentDialog.dismiss();
         }
     };

@@ -47,7 +47,7 @@ public class LoginActivity extends Activity {
                     if(username.getText().toString().equals("Admin")) login = new Intent(getApplicationContext(), AdminActivity.class);
 
                     //Set intent for the Service Providers
-                    else if(user.get("Type").equals("ServiceProvider")) login = new Intent(getApplicationContext(), ProviderActivity.class);
+                    else if(user.get("Type").equals("Service Provider")) login = new Intent(getApplicationContext(), ProviderActivity.class);
 
                     //Set intent for the Home Owners
                     else login = new Intent(getApplicationContext(), SearchActivity.class);

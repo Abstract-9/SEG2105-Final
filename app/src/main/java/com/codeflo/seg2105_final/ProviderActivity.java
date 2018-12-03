@@ -38,12 +38,13 @@ public class ProviderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_provider);
         db = FirebaseFirestore.getInstance();
+        services = new ArrayList<>();
 
         username = (String) getIntent().getExtras().get("username");
 
         db.collection("Services").get().addOnCompleteListener(allServicesListener);
-        db.collection("users").document(username)
-                .collection("Services").get().addOnCompleteListener(userServicesListener);
+        db.collection("users").document(username + "Services")
+                .get().addOnCompleteListener(userServicesListener);
         db.collection("users").document(username).collection("Times")
                 .get().addOnCompleteListener(userAvailsListener);
     }
@@ -63,13 +64,14 @@ public class ProviderActivity extends Activity {
         }
     };
 
-    OnCompleteListener<QuerySnapshot> userServicesListener = new OnCompleteListener<QuerySnapshot>() {
+    OnCompleteListener<DocumentSnapshot> userServicesListener = new OnCompleteListener<DocumentSnapshot>() {
         @Override
-        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
             if(task.isSuccessful()){
-                services = new ArrayList<>();
-                for(DocumentSnapshot doc : task.getResult().getDocuments()){
-                    services.add(new Service(doc.getId(), Double.parseDouble((String) doc.get("rate")), null));
+                ArrayList<String> tmp = (ArrayList) task.getResult().get("Services");
+                if(tmp == null) tmp = new ArrayList<>();
+                for(String service : tmp){
+                    services.add(new Service(service.split(":")[0], Double.parseDouble(service.split(":")[1]), null));
                 }
                 userServiceAdapter = new ServiceAdapter(ProviderActivity.this, services, username, 0);
             }
@@ -189,7 +191,7 @@ public class ProviderActivity extends Activity {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         db.collection("users").document(username)
-                                .collection("Services").get().addOnCompleteListener(userServicesListener);
+                                .get().addOnCompleteListener(userServicesListener);
                     }
                 });
             }

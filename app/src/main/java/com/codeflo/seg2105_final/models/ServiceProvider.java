@@ -2,9 +2,9 @@ package com.codeflo.seg2105_final.models;
 
 public class ServiceProvider {
     String name, address;
-    int rate;
+    double rate;
 
-    public ServiceProvider(String name, String address, int rate){
+    public ServiceProvider(String name, String address, double rate){
         this.name = name;
         this.address = address;
         this.rate = rate;
@@ -26,7 +26,7 @@ public class ServiceProvider {
         this.address = address;
     }
 
-    public int getRate() {
+    public double getRate() {
         return rate;
     }
 
