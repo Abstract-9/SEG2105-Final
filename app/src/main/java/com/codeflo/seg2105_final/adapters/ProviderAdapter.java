@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.codeflo.seg2105_final.R;
 import com.codeflo.seg2105_final.models.ServiceProvider;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class ProviderAdapter extends ArrayAdapter<ServiceProvider> {
@@ -36,9 +38,13 @@ public class ProviderAdapter extends ArrayAdapter<ServiceProvider> {
 
         if(listItem == null) listItem = inflater.inflate(R.layout.service_item_list, parent, false );
 
-        ((TextView)listItem.findViewById(R.id.name)).setText(current.getName());
-        ((TextView)listItem.findViewById(R.id.rate)).setText(String.valueOf(current.getRate()));
-        ((TextView)listItem.findViewById(R.id.address)).setText(current.getAddress());
+        TextView name = (TextView)listItem.findViewById(R.id.name);
+        TextView rate = (TextView)listItem.findViewById(R.id.rate);
+        TextView address = (TextView)listItem.findViewById(R.id.address);
+
+        name.setText(current.getName());
+        rate.setText("Rate: " + String.valueOf(current.getRate()));
+        address.setText("Address: " + current.getAddress());
 
         return listItem;
     }

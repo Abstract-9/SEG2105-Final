@@ -74,12 +74,17 @@ public class ListActivity extends Activity {
         public void onComplete(@NonNull Task<QuerySnapshot> task) {
             if(task.isSuccessful() && task.getResult()!=null) {
                 for (DocumentSnapshot doc : task.getResult().getDocuments()) {
-                    ArrayList<String> list = (ArrayList) doc.get("Service");
-                    for (String s : list) {
-                        if (s.split(":")[0].equals(search)) {
-                            providerList.add(new ServiceProvider(s.split(":")[0],
-                                    (String) doc.get("Address"), Double.parseDouble(s.split(":")[1])));
-                            break;
+                    ArrayList<String> list = (ArrayList) doc.get("Services");
+                    if(list!=null) {
+                        for (String s : list) {
+                            if (s.split(":")[0].equals(search)) {
+
+                                String name = doc.get("CompanyName") != null ? (String) doc.get("CompanyName") : doc.getId();
+
+                                providerList.add(new ServiceProvider(name, (String) doc.get("Address"),
+                                        Double.parseDouble(s.split(":")[1])));
+                                break;
+                            }
                         }
                     }
                 }
@@ -94,7 +99,12 @@ public class ListActivity extends Activity {
         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
             if(task.isSuccessful() && task.getResult()!=null){
                 DocumentSnapshot doc = task.getResult();
-                ServiceProvider current = new ServiceProvider(doc.getId(), (String) doc.get("Address"), (int) doc.get("rate"));
+                double rate = Double.parseDouble(((ArrayList<String>)doc.get("Services"))
+                        .get(0).split(":")[1]);
+
+                String name = doc.get("CompanyName")!=null?(String)doc.get("CompanyName"):doc.getId();
+
+                ServiceProvider current = new ServiceProvider(name, (String) doc.get("Address"), rate);
                 providerList.add(current);
                 adapter = new ProviderAdapter(ListActivity.this, providerList);
                 ((ListView)findViewById(R.id.providerList)).setAdapter(adapter);

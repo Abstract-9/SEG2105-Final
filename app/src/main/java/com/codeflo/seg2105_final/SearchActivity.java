@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +30,9 @@ public class SearchActivity extends Activity {
 
         int selectedID = group.getCheckedRadioButtonId();
 
-        if(!search.getText().toString().equals("")) {
+        if(selectedID==-1){
+            Toast.makeText(this, "Please select a search type", Toast.LENGTH_LONG).show();
+        } else if(!search.getText().toString().equals("")) {
             Intent intent = new Intent(this, ListActivity.class);
             intent.putExtra("search", search.getText().toString());
             intent.putExtra("byName", selectedID==R.id.byName);

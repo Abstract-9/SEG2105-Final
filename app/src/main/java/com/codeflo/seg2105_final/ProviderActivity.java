@@ -43,7 +43,7 @@ public class ProviderActivity extends Activity {
         username = (String) getIntent().getExtras().get("username");
 
         db.collection("Services").get().addOnCompleteListener(allServicesListener);
-        db.collection("users").document(username + "Services")
+        db.collection("users").document(username)
                 .get().addOnCompleteListener(userServicesListener);
         db.collection("users").document(username).collection("Times")
                 .get().addOnCompleteListener(userAvailsListener);
@@ -210,7 +210,7 @@ public class ProviderActivity extends Activity {
 
         //TODO verify
 
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
         map.put("Phone", phone);
         map.put("CompanyName", name);
@@ -220,7 +220,7 @@ public class ProviderActivity extends Activity {
 
         db = FirebaseFirestore.getInstance();
 
-        db.collection("users").document(username).set(map);
+        db.collection("users").document(username).update(map);
 
         Toast.makeText(this, "Content updated!", Toast.LENGTH_LONG).show();
 

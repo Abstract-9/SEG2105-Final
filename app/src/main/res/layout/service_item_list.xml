@@ -16,20 +16,21 @@
             android:paddingLeft="5sp"
             android:paddingTop="5sp"
             android:paddingBottom="5sp"
-            android:text="Name" />
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/rate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5sp"
-            android:text="Rate" />
+            android:text="Rate: " />
 
         <TextView
             android:id="@+id/address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5sp"
-            android:text="Address" />
+            android:text="Address: " />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
